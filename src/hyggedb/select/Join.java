@@ -25,7 +25,7 @@ public class Join extends TableQuery implements Clause{
         clauses.put("SELECT ",select);
         return select;
     }
-    public Column addColumns(AggregateFunction function) {
+    public Column addColumns(Function function) {
         Column select = new Column(tableName,function);
         clauses.put("SELECT ",select);
         return select;

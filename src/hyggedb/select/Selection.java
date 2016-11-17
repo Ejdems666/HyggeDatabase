@@ -13,9 +13,9 @@ public class Selection extends TableQuery{
         super(tableName);
         clauses.put("SELECT ",new Column(tableName,"*"));
     }
-    public Selection(String tableName, AggregateFunction aggregateFunction) {
+    public Selection(String tableName, Function function) {
         super(tableName);
-        clauses.put("SELECT ", new Column(tableName, aggregateFunction));
+        clauses.put("SELECT ", new Column(tableName, function));
     }
     public Selection(String tableName,String column) {
         super(tableName);
@@ -40,7 +40,7 @@ public class Selection extends TableQuery{
         }
         return select;
     }
-    public Column addColumns(AggregateFunction function) {
+    public Column addColumns(Function function) {
         return ((Column) clauses.get("SELECT ")).add(function);
     }
 

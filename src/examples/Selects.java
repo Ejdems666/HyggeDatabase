@@ -1,7 +1,7 @@
 package examples;
 
 import hyggedb.HyggeDb;
-import hyggedb.select.AggregateFunction;
+import hyggedb.select.Function;
 import hyggedb.select.Join;
 import hyggedb.select.Query;
 import hyggedb.select.Selection;
@@ -36,7 +36,7 @@ public class Selects {
 
             // More complicated example with aggregate function adn groupBy
             selection = new Selection("user", "name");
-            selection.addColumns(new AggregateFunction("sum","id","id"));
+            selection.addColumns(new Function("sum","id","id"));
             selection.where("name!=?","tester");
             selection.groupBy("name");
             printData(qb.getResult(selection));

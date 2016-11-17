@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Column extends ClauseAssembler implements Clause {
     private ArrayList<String> columns = new ArrayList<>();
 
-    public Column(String alias,AggregateFunction function) {
+    public Column(String alias,Function function) {
         super(alias);
         addAggregateFunction(function);
     }
@@ -40,12 +40,12 @@ public class Column extends ClauseAssembler implements Clause {
         return this;
     }
 
-    public Column add(AggregateFunction function) {
+    public Column add(Function function) {
         clause.append(",");
         addAggregateFunction(function);
         return this;
     }
-    private void addAggregateFunction(AggregateFunction function) {
+    private void addAggregateFunction(Function function) {
         columns.add(function.getAlias());
         clause.append(function.getFunction());
     }

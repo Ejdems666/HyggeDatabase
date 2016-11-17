@@ -3,12 +3,12 @@ package hyggedb.select;
 /**
  * Created by Ejdems on 17/11/2016.
  */
-public class AggregateFunction {
+public class Function {
     private String function;
     private String parameters;
     private String alias;
 
-    public AggregateFunction(String function, String parameters, String alias) {
+    public Function(String function, String parameters, String alias) {
         this.function = function.trim();
         this.parameters = parameters;
         this.alias = alias.trim();
