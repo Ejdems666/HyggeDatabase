@@ -11,6 +11,8 @@ import java.util.ArrayList;
  */
 public class Query {
     private Connection connection;
+    private PreparedStatement query;
+    private int parameterCount = 1;
 
     public Query(Connection connection) {
         this.connection = connection;
@@ -20,31 +22,33 @@ public class Query {
         QueryAssembler queryAssembler = new QueryAssembler(selection);
         try {
             String sql = queryAssembler.assemble();
-            PreparedStatement query = connection.prepareStatement(sql);
-            injectAllValues(query,selection);
+            query = connection.prepareStatement(sql);
+            parameterCount = 1;
+            injectWhereConditions(selection);
+            injectConditionsValues(selection.getHaving());
             return query.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
-    private void injectAllValues(PreparedStatement query, Selection selection) throws SQLException {
-        if(selection.getClause(" WHERE ") != null) {
-            injectTableValues(query, ((Where) selection.getClause(" WHERE ")));
-        }
+    private void injectWhereConditions(Selection selection) throws SQLException {
+        injectConditionsValues(((Condition) selection.getClause(" WHERE ")));
         for (Join join : selection.getJoins()) {
-            injectTableValues(query, ((Where) join.getClause(" WHERE ")));
+            injectConditionsValues(((Condition) join.getClause(" WHERE ")));
         }
     }
-    private void injectTableValues(PreparedStatement query, Where where) throws SQLException {
-        ArrayList<String> whereValues = where.getValues();
-        for (int i = 0; i < whereValues.size(); i++) {
+    private void injectConditionsValues(Condition condition) throws SQLException {
+        if (condition == null) return;
+        ArrayList<String> conditionValues = condition.getValues();
+        for (int i = 0; i < conditionValues.size(); i++) {
             try {
-                int parsedValue = Integer.parseInt(whereValues.get(i));
-                query.setInt(i+1,parsedValue);
+                int parsedValue = Integer.parseInt(conditionValues.get(i));
+                query.setInt(parameterCount,parsedValue);
             } catch (NumberFormatException e) {
-                query.setString(i+1,whereValues.get(i).substring(1));
+                query.setString(parameterCount,conditionValues.get(i).substring(1));
             }
+            parameterCount++;
         }
     }
 }

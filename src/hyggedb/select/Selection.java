@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Selection extends TableQuery{
     private ArrayList<Join> joins = new ArrayList<>();
     private Clause limit = null;
+    private Condition having = null;
 
     public Selection(String tableName) {
         super(tableName);
@@ -71,6 +72,18 @@ public class Selection extends TableQuery{
     public Selection limit(int from, int amount) {
         limit = new Limit(from,amount);
         return this;
+    }
+
+    public Condition having(String clause, String value) {
+        return having = new Condition("", clause, value);
+    }
+
+    public Condition having(String clause, Integer value) {
+        return having = new Condition("", clause, value);
+    }
+
+    public Condition getHaving() {
+        return having;
     }
 
     public String getTableName() {

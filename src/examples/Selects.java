@@ -39,6 +39,9 @@ public class Selects {
             selection.addColumns(new Function("sum","id","id"));
             selection.where("name!=?","tester");
             selection.groupBy("name");
+            // Having ONLY applies to selection, and requires alias
+            // Because of function aliasing (only way to filter aggregate or normal functions).
+            selection.having("id<?",50);
             printData(qb.getResult(selection));
 
             // Example with join

@@ -31,14 +31,14 @@ public abstract class TableQuery {
         return orderBy;
     }
 
-    public Where where(String clause, String value) {
-        Where where = new Where(tableName, clause, value);
+    public Condition where(String clause, String value) {
+        Condition where = new Condition(tableName, clause, value);
         clauses.put(" WHERE ",where);
         return where;
     }
 
-    public Where where(String clause, Integer value) {
-        Where where = new Where(tableName, clause, value);
+    public Condition where(String clause, Integer value) {
+        Condition where = new Condition(tableName, clause, value);
         clauses.put(" WHERE ",where);
         return where;
     }

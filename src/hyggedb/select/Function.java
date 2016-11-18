@@ -3,7 +3,7 @@ package hyggedb.select;
 /**
  * Created by Ejdems on 17/11/2016.
  */
-public class Function {
+public class Function{
     private String function;
     private String parameters;
     private String alias;
@@ -15,11 +15,7 @@ public class Function {
     }
 
     public String getFunction() {
-        return new StringBuilder()
-                .append(function).append("(")
-                .append(parameters)
-                .append(")")
-                .append(" AS ").append(alias).toString();
+        return function + "(" + parameters + ")" + " AS " + alias;
     }
 
     public String getAlias() {
