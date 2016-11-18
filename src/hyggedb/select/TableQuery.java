@@ -31,16 +31,26 @@ public abstract class TableQuery {
         return orderBy;
     }
 
-    public Condition where(String clause, String value) {
+    public Condition where(String clause, Object value) {
         Condition where = new Condition(tableName, clause, value);
         clauses.put(" WHERE ",where);
         return where;
     }
-
-    public Condition where(String clause, Integer value) {
-        Condition where = new Condition(tableName, clause, value);
+    public Condition where(Function function, String operator, Object value) {
+        Condition where = new Condition(tableName, function, operator, value);
         clauses.put(" WHERE ",where);
         return where;
+    }
+
+    public Condition having(String clause, Object value) {
+        Condition having = new Condition(tableName, clause, value);
+        clauses.put(" HAVING ",having);
+        return having;
+    }
+    public Condition having(Function function, String operator, Object value) {
+        Condition having = new Condition(tableName, function, operator, value);
+        clauses.put(" HAVING ",having);
+        return having;
     }
 
     public Clause getClause(String clauseType) {

@@ -1,5 +1,6 @@
 package tests;
 
+import hyggedb.select.Function;
 import hyggedb.select.GroupBy;
 import hyggedb.select.Selection;
 import hyggedb.select.Condition;
@@ -33,24 +34,26 @@ public class ClausesTestCase extends TestCase {
     }
 
     @Test
-    public void testWhereClause(){
+    public void testCondition(){
         assertNull(selection.getClause(" WHERE "));
         Condition where = selection.where("name!=?",3).and("id>?",6).or("id<?",2);
         assertEquals("user.name!=? AND user.id>? OR user.id<?",where.getClause());
         assertEqualValues(new String[]{"3","6","2"},where);
     }
+
     @Test
-    public void testHavingClause(){
-        assertNull(selection.getHaving());
-        Condition having = selection.having("name!=?","tester").and("id>?",6).or("id<?",2);
-        assertEquals("name!=? AND id>? OR id<?",having.getClause());
-        assertEqualValues(new String[]{"*tester","6","2"},having);
+    public void testConditionWithFunction(){
+        assertNull(selection.getClause(" HAVING "));
+        Function sum = new Function("sum","id","sum");
+        Condition having = selection.having(sum,">?",3).and(sum,"<?",6);
+        assertEquals("sum>? AND sum<?",having.getClause());
+        assertEqualValues(new String[]{"3","6"},having);
     }
 
     private void assertEqualValues(String[] expected, Condition condition) {
-        ArrayList<String> actual = condition.getValues();
+        ArrayList<Object> actual = condition.getValues();
         for (int i = 0; i < expected.length; i++) {
-            assertEquals(expected[i],actual.get(i));
+            assertEquals(expected[i],actual.get(i).toString());
         }
     }
 

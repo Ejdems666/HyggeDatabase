@@ -24,29 +24,27 @@ public class Query {
             String sql = queryAssembler.assemble();
             query = connection.prepareStatement(sql);
             parameterCount = 1;
-            injectWhereConditions(selection);
-            injectConditionsValues(selection.getHaving());
+            injectCondition(selection," WHERE ");
+            injectCondition(selection," HAVING ");
             return query.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
-    private void injectWhereConditions(Selection selection) throws SQLException {
-        injectConditionsValues(((Condition) selection.getClause(" WHERE ")));
+    private void injectCondition(Selection selection,String conditionType) throws SQLException {
+        injectConditionsValues(((Condition) selection.getClause(conditionType)));
         for (Join join : selection.getJoins()) {
-            injectConditionsValues(((Condition) join.getClause(" WHERE ")));
+            injectConditionsValues(((Condition) join.getClause(conditionType)));
         }
     }
     private void injectConditionsValues(Condition condition) throws SQLException {
         if (condition == null) return;
-        ArrayList<String> conditionValues = condition.getValues();
-        for (int i = 0; i < conditionValues.size(); i++) {
-            try {
-                int parsedValue = Integer.parseInt(conditionValues.get(i));
-                query.setInt(parameterCount,parsedValue);
-            } catch (NumberFormatException e) {
-                query.setString(parameterCount,conditionValues.get(i).substring(1));
+        for (Object conditionValue : condition.getValues()) {
+            if(conditionValue instanceof Integer) {
+                query.setInt(parameterCount, ((Integer) conditionValue));
+            } else {
+                query.setString(parameterCount, ((String) conditionValue));
             }
             parameterCount++;
         }

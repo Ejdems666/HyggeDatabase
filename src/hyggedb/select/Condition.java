@@ -6,43 +6,32 @@ import java.util.ArrayList;
  * Created by Ejdems on 17/11/2016.
  */
 public class Condition extends ClauseAssembler implements Clause {
-    protected ArrayList<String> values = new ArrayList<>();
+    protected ArrayList<Object> values = new ArrayList<>();
 
-    public Condition(String alias, String clause, String value) {
+    public Condition(String alias, String clause, Object value) {
         super(alias);
         appendClause(clause);
-        values.add("*"+value);
+        values.add(value);
     }
-    public Condition(String alias, String clause, Integer value) {
+    public Condition(String alias, Function function, String operator, Object value) {
         super(alias);
-        appendClause(clause);
-        values.add(value.toString());
+        clause.append(function.getAlias()).append(operator);
+        values.add(value);
     }
 
-    public Condition or(String clause, String value) {
+    public Condition or(String clause, Object value) {
         this.clause.append(" OR ");
         appendClause(clause);
-        values.add("*"+value);
+        values.add(value);
         return this;
     }
-    public Condition and(String clause, String value) {
+    public Condition and(String clause, Object value) {
         this.clause.append(" AND ");
         appendClause(clause);
-        values.add("*"+value);
+        values.add(value);
         return this;
     }
-    public Condition or(String clause, Integer value) {
-        this.clause.append(" OR ");
-        appendClause(clause);
-        values.add(value.toString());
-        return this;
-    }
-    public Condition and(String clause, Integer value) {
-        this.clause.append(" AND ");
-        appendClause(clause);
-        values.add(value.toString());
-        return this;
-    }
+
     public Condition or(Condition condition) {
         this.clause.append(" OR ");
         clause.append(condition.getClause());
@@ -56,7 +45,22 @@ public class Condition extends ClauseAssembler implements Clause {
         return this;
     }
 
-    public ArrayList<String> getValues() {
+    public Condition or(Function function, String operator, Object value) {
+        clause.append(" OR ");
+        clause.append(function.getAlias()).append(operator);
+        values.add(value);
+        return this;
+    }
+    public Condition and(Function function, String operator, Object value) {
+        clause.append(" AND ");
+        clause.append(function.getAlias()).append(operator);
+        values.add(value);
+        return this;
+    }
+
+    // TODO: add IN() method (and() or() with list of values) and maybe between()
+
+    public ArrayList<Object> getValues() {
         return values;
     }
 }

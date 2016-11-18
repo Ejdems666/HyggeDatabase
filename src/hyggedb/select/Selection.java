@@ -74,18 +74,6 @@ public class Selection extends TableQuery{
         return this;
     }
 
-    public Condition having(String clause, String value) {
-        return having = new Condition("", clause, value);
-    }
-
-    public Condition having(String clause, Integer value) {
-        return having = new Condition("", clause, value);
-    }
-
-    public Condition getHaving() {
-        return having;
-    }
-
     public String getTableName() {
         return tableName;
     }

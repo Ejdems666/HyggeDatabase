@@ -18,7 +18,7 @@ public class QueryAssembler {
         appendJoinClauses();
         appendClause(" WHERE ");
         appendClause(" GROUP BY ");
-        appendHaving();
+        appendClause(" HAVING ");
         appendClause(" ORDER BY ");
         appendLimit();
         return sql.toString();
@@ -41,12 +41,6 @@ public class QueryAssembler {
     private void appendJoinClauses() {
         for (Join join : selection.getJoins()) {
             sql.append(join.getClause());
-        }
-    }
-    private void appendHaving() {
-        if(selection.getHaving() != null) {
-            sql.append(" HAVING ");
-            sql.append(selection.getHaving().getClause());
         }
     }
 
