@@ -9,9 +9,9 @@ public class Function{
     private String alias;
 
     public Function(String function, String parameters, String alias) {
-        this.function = function.trim();
+        this.function = function;
         this.parameters = parameters;
-        this.alias = alias.trim();
+        this.alias = alias;
     }
 
     public String getFunction() {

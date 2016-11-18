@@ -45,22 +45,19 @@ public class Selection extends TableQuery{
         return ((Column) clauses.get("SELECT ")).add(function);
     }
 
-    /**
-     * ... INNER JOIN [toTable] ON baseTable.[fromColumn] = toTable.[toColumn]
-     * @return Selection object of newly joined tableName: [tableName].
-     * Here you can apply WHERE, GROUP BY, ORDER BY statements and ADD COLUMNS all specific to the joined table
-     */
-    public Join join(String toTable, String fromColumn, String toColumn) {
-        return join(toTable,fromColumn,toColumn,"INNER JOIN");
+
+    public Join join(String toTable) {
+        return join("INNER",toTable,toTable+"_id","id");
     }
-    /**
-     * ... [joinType] [toTable] ON baseTable.[fromColumn] = toTable.[toColumn]
-     * @return Selection object of newly joined tableName: [tableName].
-     * Here you can apply WHERE, GROUP BY, ORDER BY statements and ADD COLUMNS all specific to the joined table
-     */
-    public Join join(String toTable, String fromColumn, String toColumn, String joinType) {
+    public Join join(String toTable, String fromColumn, String toColumn) {
+        return join("INNER",toTable,fromColumn,toColumn);
+    }
+    public Join join(String joinType, String toTable) {
+        return join(joinType,toTable,toTable+"_id","id");
+    }
+    public Join join(String joinType, String toTable, String fromColumn, String toColumn) {
         Join join =  new Join(
-                joinType,
+                joinType + " JOIN",
                 toTable,
                 tableName + "." + fromColumn,
                 toColumn

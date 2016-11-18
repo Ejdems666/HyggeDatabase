@@ -35,7 +35,7 @@ public class Join extends TableQuery implements Clause{
     public String getClause() {
         StringBuilder sql = new StringBuilder();
         sql.append(" ").append(joinType).append(" ")
-                .append(tableName).append(" ")
+                .append(tableName)
                 .append(" ON ")
                 .append(fromColumn)
                 .append(" = ")
