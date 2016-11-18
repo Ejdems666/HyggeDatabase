@@ -1,4 +1,3 @@
-package tests;
 
 import hyggedb.select.Function;
 import hyggedb.select.GroupBy;

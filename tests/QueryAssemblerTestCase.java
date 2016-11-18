@@ -1,4 +1,3 @@
-package tests;
 
 import hyggedb.select.QueryAssembler;
 import hyggedb.select.Selection;
