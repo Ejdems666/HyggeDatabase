@@ -32,7 +32,7 @@ public class SelectionExecutor {
             return null;
         }
     }
-    private ArrayList<String> getAllColumns(Selection selection){
+    public ArrayList<String> getAllColumns(Selection selection){
         ArrayList<String> columns = new ArrayList<>();
         columns.addAll(((Column) selection.getClause("SELECT ")).getColumns());
         for (Join join : selection.getJoins()) {

@@ -4,11 +4,12 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.StringJoiner;
 
 /**
  * Created by Ejdems on 17/11/2016.
  */
-public class ClausesTestCase extends TestCase {
+public class ClausesTestCase extends HyggeDbTestCase {
     private Selection selection;
 
     @Test
@@ -34,7 +35,7 @@ public class ClausesTestCase extends TestCase {
         assertNull(selection.getClause(" WHERE "));
         Condition where = selection.where("name!=?",3).and("id>?",6).or("id<?",2);
         assertEquals("user.name!=? AND user.id>? OR user.id<?",where.getClause());
-        assertEqualValues(new String[]{"3","6","2"},where);
+        assertEqualValues(new String[]{"3","6","2"}, where.getValues().toArray());
     }
 
     @Test
@@ -43,14 +44,7 @@ public class ClausesTestCase extends TestCase {
         Function sum = new Function("sum","id","sum");
         Condition having = selection.having(sum,">?",3).and(sum,"<?",6);
         assertEquals("sum>? AND sum<?",having.getClause());
-        assertEqualValues(new String[]{"3","6"},having);
-    }
-
-    private void assertEqualValues(String[] expected, Condition condition) {
-        ArrayList<Object> actual = condition.getValues();
-        for (int i = 0; i < expected.length; i++) {
-            assertEquals(expected[i],actual.get(i).toString());
-        }
+        assertEqualValues(new String[]{"3","6"},having.getValues().toArray());
     }
 
     @Test

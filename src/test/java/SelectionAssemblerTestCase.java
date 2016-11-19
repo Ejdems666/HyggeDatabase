@@ -8,7 +8,7 @@ import org.junit.Test;
 /**
  * Created by Ejdems on 18/11/2016.
  */
-public class SelectionAssemblerTestCase extends TestCase {
+public class SelectionAssemblerTestCase extends HyggeDbTestCase {
     private Selection selection;
     private SelectionAssembler selectionAssembler;
 

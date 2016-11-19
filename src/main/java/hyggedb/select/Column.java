@@ -19,14 +19,18 @@ public class Column extends ClauseAssembler implements Clause {
         if(column.equals("*")) {
             clause.append(column);
         } else if(!column.isEmpty()){
-            this.columns.add(column);
+            addToColumnList(column);
             appendClause(column);
         }
     }
 
+    private void addToColumnList(String column) {
+        this.columns.add(alias+"."+column);
+    }
+
     public Column(String alias,String[] columns) {
         super(alias);
-        this.columns.add(columns[0].trim());
+        addToColumnList(columns[0].trim());
         appendClause(columns[0]);
         for (int i = 1; i < columns.length; i++) {
             add(columns[i]);
@@ -34,7 +38,7 @@ public class Column extends ClauseAssembler implements Clause {
     }
 
     public Column add(String element) {
-        columns.add(element.trim());
+        addToColumnList(element.trim());
         clause.append(",");
         appendClause(element);
         return this;
