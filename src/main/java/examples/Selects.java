@@ -3,7 +3,7 @@ package examples;
 import hyggedb.HyggeDb;
 import hyggedb.select.Function;
 import hyggedb.select.Join;
-import hyggedb.select.SelectQuery;
+import hyggedb.select.SelectionExecutor;
 import hyggedb.select.Selection;
 
 import java.sql.ResultSet;
@@ -17,22 +17,22 @@ public class Selects {
         HyggeDb database = null;
         try {
             database = new HyggeDb();
-            SelectQuery query = database.getSelectQuery();
+            SelectionExecutor executor = database.getSelectionExecutor();
             Selection selection;
 
             // get
             selection = new Selection("user");
-            printData(query.getResult(selection));
+            printData(executor.getResult(selection));
 
-            // Basic SelectQuery
+            // Basic SelectionExecutor
             selection = new Selection("user");
             selection.where("id>?",3).and("id<?",6);
-            printData(query.getResult(selection));
+            printData(executor.getResult(selection));
 
-            // Basic SelectQuery with LIKE
+            // Basic SelectionExecutor with LIKE
             selection = new Selection("user");
             selection.where("name LIKE ?","test%");
-            printData(query.getResult(selection));
+            printData(executor.getResult(selection));
 
             // More complicated example with aggregate function adn groupBy
             selection = new Selection("user", "name");
@@ -41,7 +41,7 @@ public class Selects {
             Function sum = new Function("sum","id","id");
             selection.addColumns(sum);
             selection.having(sum,"<?",50);
-            printData(query.getResult(selection));
+            printData(executor.getResult(selection));
 
             // Example with join
             selection = new Selection("user","");
@@ -49,7 +49,7 @@ public class Selects {
             Join join = selection.join("job","job_id","id");
             join.addColumns("name");
             join.where("name!=?","plumber");
-            printJoinData(query.getResult(selection));
+            printJoinData(executor.getResult(selection));
 
             System.out.println("\n-----------------------------------------------------------------\n");
         } catch (Exception e) {

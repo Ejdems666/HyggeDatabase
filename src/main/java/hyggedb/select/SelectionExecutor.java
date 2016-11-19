@@ -8,19 +8,19 @@ import java.sql.SQLException;
 /**
  * Created by Ejdems on 16/11/2016.
  */
-public class SelectQuery {
+public class SelectionExecutor {
     private Connection connection;
     private PreparedStatement query;
     private int parameterCount = 1;
 
-    public SelectQuery(Connection connection) {
+    public SelectionExecutor(Connection connection) {
         this.connection = connection;
     }
 
     public ResultSet getResult(Selection selection) {
-        QueryAssembler queryAssembler = new QueryAssembler(selection);
+        SelectionAssembler selectionAssembler = new SelectionAssembler(selection);
         try {
-            String sql = queryAssembler.assemble();
+            String sql = selectionAssembler.assemble();
             query = connection.prepareStatement(sql);
             parameterCount = 1;
             injectCondition(selection," WHERE ");

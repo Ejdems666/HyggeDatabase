@@ -3,11 +3,11 @@ package hyggedb.select;
 /**
  * Created by Ejdems on 17/11/2016.
  */
-public class QueryAssembler {
+public class SelectionAssembler {
     private StringBuilder sql;
     private Selection selection;
 
-    public QueryAssembler(Selection selection) {
+    public SelectionAssembler(Selection selection) {
         this.selection = selection;
         sql = new StringBuilder();
     }
