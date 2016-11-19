@@ -3,7 +3,7 @@ package examples;
 import hyggedb.HyggeDb;
 import hyggedb.select.Function;
 import hyggedb.select.Join;
-import hyggedb.select.Query;
+import hyggedb.select.SelectQuery;
 import hyggedb.select.Selection;
 
 import java.sql.ResultSet;
@@ -14,25 +14,25 @@ import java.sql.SQLException;
  */
 public class Selects {
     public static void main(String[] args) {
-        HyggeDb db = null;
+        HyggeDb database = null;
         try {
-            db = new HyggeDb();
-            Query qb = db.getSelectQuery();
+            database = new HyggeDb();
+            SelectQuery query = database.getSelectQuery();
             Selection selection;
 
             // get
             selection = new Selection("user");
-            printData(qb.getResult(selection));
+            printData(query.getResult(selection));
 
-            // Basic Query
+            // Basic SelectQuery
             selection = new Selection("user");
             selection.where("id>?",3).and("id<?",6);
-            printData(qb.getResult(selection));
+            printData(query.getResult(selection));
 
-            // Basic Query with LIKE
+            // Basic SelectQuery with LIKE
             selection = new Selection("user");
             selection.where("name LIKE ?","test%");
-            printData(qb.getResult(selection));
+            printData(query.getResult(selection));
 
             // More complicated example with aggregate function adn groupBy
             selection = new Selection("user", "name");
@@ -41,7 +41,7 @@ public class Selects {
             Function sum = new Function("sum","id","id");
             selection.addColumns(sum);
             selection.having(sum,"<?",50);
-            printData(qb.getResult(selection));
+            printData(query.getResult(selection));
 
             // Example with join
             selection = new Selection("user","");
@@ -49,13 +49,13 @@ public class Selects {
             Join join = selection.join("job","job_id","id");
             join.addColumns("name");
             join.where("name!=?","plumber");
-            printJoinData(qb.getResult(selection));
+            printJoinData(query.getResult(selection));
 
             System.out.println("\n-----------------------------------------------------------------\n");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            db.close();
+            database.close();
         }
     }
 

@@ -13,24 +13,24 @@ public class QueryAssembler {
     }
 
     public String assemble() {
-        appendClause("SELECT ");
+        appendClause("SELECT ",",");
         sql.append(" FROM ").append(selection.getTableName());
         appendJoinClauses();
-        appendClause(" WHERE ");
-        appendClause(" GROUP BY ");
-        appendClause(" HAVING ");
-        appendClause(" ORDER BY ");
+        appendClause(" WHERE ","");
+        appendClause(" GROUP BY ",",");
+        appendClause(" HAVING ","");
+        appendClause(" ORDER BY ",",");
         appendLimit();
         return sql.toString();
     }
-    private void appendClause(String clauseType) {
+    private void appendClause(String clauseType, String separator) {
         StringBuilder clause = new StringBuilder();
         if(selection.getClause(clauseType) != null) {
             clause.append(selection.getClause(clauseType).getClause());
         }
         for (Join join : selection.getJoins()) {
             if (join.getClause(clauseType) != null) {
-                if (clause.length() > 0) clause.append(",");
+                if (clause.length() > 0) clause.append(separator);
                 clause.append(join.getClause(clauseType).getClause());
             }
         }

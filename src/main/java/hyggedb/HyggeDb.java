@@ -1,6 +1,6 @@
 package hyggedb;
 
-import hyggedb.select.Query;
+import hyggedb.select.SelectQuery;
 
 /**
  * Created by Ejdems on 16/11/2016.
@@ -16,7 +16,7 @@ public class HyggeDb {
         dbConnector.close();
     }
 
-    public Query getSelectQuery() {
-        return new Query(dbConnector.getConnection());
+    public SelectQuery getSelectQuery() {
+        return new SelectQuery(dbConnector.getConnection());
     }
 }

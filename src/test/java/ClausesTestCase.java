@@ -1,8 +1,5 @@
 
-import hyggedb.select.Function;
-import hyggedb.select.GroupBy;
-import hyggedb.select.Selection;
-import hyggedb.select.Condition;
+import hyggedb.select.*;
 import junit.framework.TestCase;
 import org.junit.Test;
 
@@ -66,11 +63,29 @@ public class ClausesTestCase extends TestCase {
     }
 
     @Test
+    public void testGroupByWithFunction() {
+        Function sum = new Function("sum","id","sum");
+        GroupBy groupBy = selection.groupBy(sum);
+        assertEquals("sum",groupBy.getClause());
+        groupBy.add(sum);
+        assertEquals("sum,sum",groupBy.getClause());
+    }
+
+    @Test
     public void testOrderByClause() {
         assertNull(selection.getClause(" ORDER BY "));
         GroupBy groupBy = selection.groupBy("name ");
         assertEquals("user.name",groupBy.getClause());
         groupBy = selection.groupBy(" name ASC, id DESC");
         assertEquals("user.name ASC,user.id DESC",groupBy.getClause());
+    }
+
+    @Test
+    public void testOrderByWithFunction() {
+        Function sum = new Function("sum","id","sum");
+        OrderBy orderBy = selection.orderBy(sum,"ASC");
+        assertEquals("sum ASC",orderBy.getClause());
+        orderBy.add(sum,"DESC");
+        assertEquals("sum ASC,sum DESC",orderBy.getClause());
     }
 }

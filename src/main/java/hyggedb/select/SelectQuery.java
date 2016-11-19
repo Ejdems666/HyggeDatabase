@@ -4,17 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 /**
  * Created by Ejdems on 16/11/2016.
  */
-public class Query {
+public class SelectQuery {
     private Connection connection;
     private PreparedStatement query;
     private int parameterCount = 1;
 
-    public Query(Connection connection) {
+    public SelectQuery(Connection connection) {
         this.connection = connection;
     }
 

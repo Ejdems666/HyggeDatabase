@@ -45,34 +45,25 @@ public class Selection extends TableQuery{
         return ((Column) clauses.get("SELECT ")).add(function);
     }
 
-
-    public Join join(String toTable) {
-        return join("INNER",toTable,toTable+"_id","id");
-    }
-    public Join join(String toTable, String fromColumn, String toColumn) {
-        return join("INNER",toTable,fromColumn,toColumn);
-    }
-    public Join join(String joinType, String toTable) {
-        return join(joinType,toTable,toTable+"_id","id");
-    }
+    @Override
     public Join join(String joinType, String toTable, String fromColumn, String toColumn) {
         Join join =  new Join(
+                this,
                 joinType + " JOIN",
                 toTable,
                 tableName + "." + fromColumn,
                 toColumn
         );
-        joins.add(join);
+        addJoin(join);
         return join;
+    }
+    void addJoin(Join join) {
+        joins.add(join);
     }
 
     public Selection limit(int from, int amount) {
         limit = new Limit(from,amount);
         return this;
-    }
-
-    public String getTableName() {
-        return tableName;
     }
 
     public Clause getLimit() {
