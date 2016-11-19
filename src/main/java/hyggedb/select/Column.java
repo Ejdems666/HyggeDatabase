@@ -49,4 +49,8 @@ public class Column extends ClauseAssembler implements Clause {
         columns.add(function.getAlias());
         clause.append(function.getFunction());
     }
+
+    public ArrayList<String> getColumns() {
+        return columns;
+    }
 }

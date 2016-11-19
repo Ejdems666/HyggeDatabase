@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * Created by Ejdems on 16/11/2016.
@@ -30,6 +31,14 @@ public class SelectionExecutor {
             e.printStackTrace();
             return null;
         }
+    }
+    private ArrayList<String> getAllColumns(Selection selection){
+        ArrayList<String> columns = new ArrayList<>();
+        columns.addAll(((Column) selection.getClause("SELECT ")).getColumns());
+        for (Join join : selection.getJoins()) {
+            columns.addAll(((Column) join.getClause("SELECT ")).getColumns());
+        }
+        return columns;
     }
     private void injectCondition(Selection selection,String conditionType) throws SQLException {
         injectConditionsValues(((Condition) selection.getClause(conditionType)));
