@@ -1,5 +1,6 @@
 package hyggedb.select;
 
+import java.sql.Connection;
 import java.util.HashMap;
 
 /**
@@ -89,6 +90,10 @@ public abstract class TableQuery {
 
     public Clause getClause(String clauseType) {
         return clauses.get(clauseType);
+    }
+
+    public void setWhere(Condition clause) {
+        clauses.put(" WHERE ",clause);
     }
 
     public String getTableName() {

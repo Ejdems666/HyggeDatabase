@@ -2,17 +2,20 @@ import hyggedb.HyggeDb;
 import hyggedb.select.Function;
 import hyggedb.select.Selection;
 import hyggedb.select.SelectionExecutor;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import static junit.framework.Assert.*;
 
 /**
  * Created by Ejdems on 19/11/2016.
  */
-public class SelectionExecutorTestCase extends HyggeDbTestCase {
+public class SelectionExecutorTestCase{
     private Selection selection;
-    private SelectionExecutor executor;
-    private HyggeDb db;
+    private static SelectionExecutor executor;
+    private static HyggeDb db;
 
-    public void setUp() throws Exception {
+    @BeforeClass
+    public static void setUpClass() throws Exception {
         db = new HyggeDb();
         executor = db.getSelectionExecutor();
     }
@@ -21,6 +24,11 @@ public class SelectionExecutorTestCase extends HyggeDbTestCase {
     public void testEmptyColumns() {
         selection = new Selection("user");
         assertEqualValues(new String[]{},executor.getAllColumns(selection).toArray());
+    }
+    private void assertEqualValues(String[] expected, Object[] actual) {
+        for (int i = 0; i < expected.length; i++) {
+            assertEquals(expected[i],actual[i].toString());
+        }
     }
 
     @Test
