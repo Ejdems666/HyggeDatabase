@@ -1,6 +1,7 @@
 package examples;
 
 import hyggedb.HyggeDb;
+import hyggedb.MySQLConnector;
 import hyggedb.select.Function;
 import hyggedb.select.Join;
 import hyggedb.select.SelectionExecutor;
@@ -16,7 +17,7 @@ public class Selects {
     public static void main(String[] args) {
         HyggeDb database = null;
         try {
-            database = new HyggeDb();
+            database = new HyggeDb(new MySQLConnector());
             SelectionExecutor executor = database.getSelectionExecutor();
             Selection selection;
 

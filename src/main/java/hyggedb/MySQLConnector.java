@@ -12,7 +12,7 @@ public class MySQLConnector implements Connector {
     private static final int PORT = 3306;
     private static final String DATABASE = "cba_jdbc_qb";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "root";
 
     private Connection conn = null;
 

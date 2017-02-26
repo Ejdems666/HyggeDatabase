@@ -8,8 +8,8 @@ import hyggedb.select.SelectionExecutor;
 public class HyggeDb {
     private final Connector dbConnector;
 
-    public HyggeDb() throws Exception {
-        dbConnector = new MySQLConnector();
+    public HyggeDb(Connector connector) throws Exception {
+        dbConnector = connector;
     }
 
     public void close() {

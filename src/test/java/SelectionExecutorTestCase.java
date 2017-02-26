@@ -1,4 +1,5 @@
 import hyggedb.HyggeDb;
+import hyggedb.MySQLConnector;
 import hyggedb.select.Function;
 import hyggedb.select.Selection;
 import hyggedb.select.SelectionExecutor;
@@ -16,7 +17,7 @@ public class SelectionExecutorTestCase{
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-        db = new HyggeDb();
+        db = new HyggeDb(new MySQLConnector());
         executor = db.getSelectionExecutor();
     }
 
