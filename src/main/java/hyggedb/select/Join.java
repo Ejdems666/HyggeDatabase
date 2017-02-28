@@ -1,5 +1,7 @@
 package hyggedb.select;
 
+import java.util.Collection;
+
 /**
  * Created by Ejdems on 16/11/2016.
  */
@@ -39,11 +41,17 @@ public class Join extends TableQuery implements Clause{
     public Condition andWhere(Function function, String operator, Object value) {
         return createCondition(" AND "," WHERE ",function, operator, value);
     }
+    public Condition andWhere(String clause, Collection<Object> values) {
+        return createCondition(" AND "," WHERE ",clause,values);
+    }
     public Condition orWhere(String clause, Object value) {
         return createCondition(" OR "," WHERE ",clause, value);
     }
     public Condition orWhere(Function function, String operator, Object value) {
         return createCondition(" OR ", " WHERE ",function, operator, value);
+    }
+    public Condition orWhere(String clause, Collection<Object> values) {
+        return createCondition(" OR "," WHERE ",clause,values);
     }
     public Condition andHaving(String clause, Object value) {
         return createCondition(" AND "," HAVING ",clause, value);
@@ -51,11 +59,17 @@ public class Join extends TableQuery implements Clause{
     public Condition andHaving(Function function, String operator, Object value) {
         return createCondition(" AND "," HAVING ",function, operator, value);
     }
+    public Condition andHaving(String clause, Collection<Object> values) {
+        return createCondition(" AND "," HAVING ",clause,values);
+    }
     public Condition orHaving(String clause, Object value) {
         return createCondition(" OR "," HAVING ",clause, value);
     }
     public Condition orHaving(Function function, String operator, Object value) {
         return createCondition(" OR ", " HAVING ",function, operator, value);
+    }
+    public Condition orHaving(String clause, Collection<Object> values) {
+        return createCondition(" OR "," HAVING ",clause,values);
     }
 
     @Override

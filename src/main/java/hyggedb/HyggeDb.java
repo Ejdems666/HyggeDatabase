@@ -1,5 +1,6 @@
 package hyggedb;
 
+import hyggedb.insert.QueryExecutor;
 import hyggedb.select.SelectionExecutor;
 
 /**
@@ -8,7 +9,7 @@ import hyggedb.select.SelectionExecutor;
 public class HyggeDb {
     private final Connector dbConnector;
 
-    public HyggeDb(Connector connector) throws Exception {
+    public HyggeDb(Connector connector){
         dbConnector = connector;
     }
 
@@ -18,5 +19,9 @@ public class HyggeDb {
 
     public SelectionExecutor getSelectionExecutor() {
         return new SelectionExecutor(dbConnector.getConnection());
+    }
+
+    public QueryExecutor getInsertionExecutor() {
+        return new QueryExecutor(dbConnector.getConnection());
     }
 }

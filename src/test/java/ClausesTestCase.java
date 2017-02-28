@@ -1,15 +1,16 @@
 
 import hyggedb.select.*;
-import junit.framework.TestCase;
+import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.StringJoiner;
+import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Created by Ejdems on 17/11/2016.
  */
-public class ClausesTestCase extends HyggeDbTestCase {
+public class ClausesTestCase {
     private Selection selection;
 
     @Test
@@ -18,8 +19,8 @@ public class ClausesTestCase extends HyggeDbTestCase {
         assertEquals("",selection.getClause("SELECT ").getClause());
     }
 
-    @Override
-    public void setUp() {
+    @Before
+    public void setUp() throws Exception {
         selection = new Selection("user");
     }
 
@@ -35,7 +36,7 @@ public class ClausesTestCase extends HyggeDbTestCase {
         assertNull(selection.getClause(" WHERE "));
         Condition where = selection.where("name!=?",3).and("id>?",6).or("id<?",2);
         assertEquals("user.name!=? AND user.id>? OR user.id<?",where.getClause());
-        assertEqualValues(new String[]{"3","6","2"}, where.getValues().toArray());
+        assertArrayEquals(new Integer[]{3,6,2}, where.getValues().toArray());
     }
 
     @Test
@@ -44,7 +45,7 @@ public class ClausesTestCase extends HyggeDbTestCase {
         Function sum = new Function("sum","id","sum");
         Condition having = selection.having(sum,">?",3).and(sum,"<?",6);
         assertEquals("sum>? AND sum<?",having.getClause());
-        assertEqualValues(new String[]{"3","6"},having.getValues().toArray());
+        assertArrayEquals(new Integer[]{3,6},having.getValues().toArray());
     }
 
     @Test
