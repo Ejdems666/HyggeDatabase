@@ -1,14 +1,19 @@
-
+import hyggedb.select.Condition;
 import hyggedb.select.Join;
-import hyggedb.select.SelectionAssembler;
 import hyggedb.select.Selection;
-import junit.framework.TestCase;
+import hyggedb.select.SelectionAssembler;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertArrayEquals;
 
 /**
  * Created by Ejdems on 18/11/2016.
  */
-public class SelectionAssemblerTestCase extends HyggeDbTestCase {
+public class SelectionAssemblerTestCase {
     private Selection selection;
     private SelectionAssembler selectionAssembler;
 
@@ -81,6 +86,35 @@ public class SelectionAssemblerTestCase extends HyggeDbTestCase {
                         "INNER JOIN job_user ON user.id = job_user.user_id " +
                         "INNER JOIN job ON job_user.job_id = job.id " +
                         "WHERE job_user.accepted!=? AND job.name LIKE ? AND job.salary>?",
+                selectionAssembler.assemble()
+        );
+    }
+
+    @Test
+    public void testInClause() throws Exception {
+        selection = new Selection("user");
+        Collection<Object> inValues = new ArrayList<>();
+        inValues.add(1);
+        inValues.add(2);
+        inValues.add(3);
+        Condition where = selection.where("status",inValues);
+        selectionAssembler = new SelectionAssembler(selection);
+        assertEquals(
+                "SELECT * FROM user WHERE user.status IN (?,?,?)",
+                selectionAssembler.assemble()
+        );
+        assertArrayEquals(inValues.toArray(), where.getValues().toArray());
+    }
+
+    @Test
+    public void testInClauseWithOneValue() throws Exception {
+        selection = new Selection("user");
+        Collection<Object> inValues = new ArrayList<>();
+        inValues.add(1);
+        Condition where = selection.where("status",inValues);
+        selectionAssembler = new SelectionAssembler(selection);
+        assertEquals(
+                "SELECT * FROM user WHERE user.status IN (?)",
                 selectionAssembler.assemble()
         );
     }

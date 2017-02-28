@@ -1,6 +1,6 @@
 package hyggedb.select;
 
-import java.sql.Connection;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -53,6 +53,9 @@ public abstract class TableQuery {
     public Condition where(Function function, String operator, Object value) {
         return createCondition("", " WHERE ", function, operator, value);
     }
+    public Condition where(String clause, Collection<Object> values) {
+        return createCondition("", " WHERE ", clause, values);
+    }
 
     public Condition having(String clause, Object value) {
         return createCondition("", " HAVING ", clause, value);
@@ -70,6 +73,12 @@ public abstract class TableQuery {
 
     protected Condition createCondition(String prefix, String key, Function function, String operator, Object value) {
         Condition where = new Condition(prefix, tableName, function, operator, value);
+        clauses.put(key, where);
+        return where;
+    }
+
+    protected Condition createCondition(String prefix, String key, String clause, Collection<Object> values) {
+        Condition where = new Condition(prefix, tableName, clause, values);
         clauses.put(key, where);
         return where;
     }
